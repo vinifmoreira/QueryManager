@@ -1,7 +1,5 @@
 package br.com.manager.view;
 
-import java.awt.Window;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,8 +23,8 @@ public class QueryManagerView<E> extends DialogForm<E> {
 	protected TextField<E> txtIbge;
 	private JLabel lbIbge;
 	
-	public QueryManagerView(Window owner) {
-		super(owner);
+	public QueryManagerView() {
+		super(null);
 		initialize();
 	}
 	
