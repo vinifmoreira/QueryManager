@@ -7,7 +7,7 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 	private QueryEntity object;
 	
 	public QueryManagerController() {
-		super();
+		super(null);
 	}
 
 }

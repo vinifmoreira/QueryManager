@@ -1,5 +1,7 @@
 package br.com.manager.view;
 
+import java.awt.Window;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -7,148 +9,162 @@ import br.com.vipautomacao.gerador.swing.component.DialogForm;
 import br.com.vipautomacao.gerador.swing.component.fields.TextField;
 import br.com.vipautomacao.gerador.swing.component.panel.PanelActions;
 import br.com.vipautomacao.gerador.swing.component.panel.PanelTitle;
+import br.com.vipautomacao.gerador.text.formatter.MonetaryDocument;
 import br.com.vipautomacao.gerador.text.formatter.TextDocument;
 
-public class QueryManagerView<E> extends DialogForm<E> {
-	private JPanel jContentPane = null;
-	private PanelTitle paneltitle;
-	protected JPanel panelContent;
-	protected PanelActions panelActions;
-	protected TextField<E> txtCodigo;
-	private JLabel lbCodigo;
-	protected TextField<E> txtNome;
-	private JLabel lbNome;
-	protected TextField<E> txtUf;
-	private JLabel lbUf;
-	protected TextField<E> txtIbge;
-	private JLabel lbIbge;
-	
-	public QueryManagerView() {
-		super(null);
-		initialize();
-	}
-	
-	private void initialize() {
-        setBounds(100, 100, 798, 275);
-		setTitle("Controle de SQL");
-		setModal(true);
-		setResizable(false);
-		setLocationRelativeTo(getOwner());
-		setContentPane(getJContentPane());
-	}
+public abstract class QueryManagerView<E> extends DialogForm<E> {
+    private static final long serialVersionUID = 1L;
+    private JPanel jContentPane = null;
+    private PanelTitle paneltitle;
+    protected JPanel panelContent;
+    protected PanelActions panelActions;
+    protected TextField<E> txtId;
+    private JLabel lbId;
+    protected TextField<E> txtQuery;
+    private JLabel lbQuery;
+    protected TextField<E> txtVersion;
+    private JLabel lbVersion;
+    private TextField<E> txtCreatedAt;
+    private JLabel lblCreatedAt;
+    private TextField<E> txtAuthor;
+    private JLabel lblAuthor;
+    
+    protected QueryManagerView(Window owner) {
+        super(owner);
+        initialize();
+    }
 
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			jContentPane = new JPanel();
-			jContentPane.setLayout(null);
-			jContentPane.add(getPanelTitle());
-			jContentPane.add(getPanelContent());
-			jContentPane.add(getPanelActions());
-		}
-		return jContentPane;
-	}
+    private void initialize() {
+        setBounds(100, 100, 912, 270);
+        setTitle("Cadastro de SQLs");
+        setModal(true);
+        setLocationRelativeTo(getOwner());
+        setContentPane(getJContentPane());
+    }
 
-	private PanelTitle getPanelTitle() {
-		if (paneltitle == null) {
-			paneltitle = new PanelTitle("Controle de SQL");
-			paneltitle.setBounds(0, 0, 802, 52);
-		}
-		return paneltitle;
-	}
+    private JPanel getJContentPane() {
+        if (jContentPane == null) {
+            jContentPane = new JPanel();
+            jContentPane.setLayout(null);
+            jContentPane.add(getPaneltitle());
+            jContentPane.add(getPanelContent());
+        }
+        return jContentPane;
+    }
 
-	private JPanel getPanelContent() {
-		if (panelContent == null) {
-			panelContent = new JPanel();
-			panelContent.setBounds(0, 53, 802, 138);
-			panelContent.setLayout(null);
-			panelContent.add(getTxtCodigo());
-			panelContent.add(getLbCodigo());
-			panelContent.add(getTxtNome());
-			panelContent.add(getLbNome());
-			panelContent.add(getTxtUf());
-			panelContent.add(getLbUf());
-			panelContent.add(getTxtIbge());
-			panelContent.add(getLbIbge());
-		}
-		return panelContent;
-	}
+    private PanelTitle getPaneltitle() {
+        if (paneltitle == null) {
+            paneltitle = new PanelTitle("Cadastro de SQLs");
+            paneltitle.setBounds(0, 0, 638, 50);
+        }
+        return paneltitle;
+    }
 
-	public PanelActions getPanelActions() {
-		if (panelActions == null) {
-			panelActions = new PanelActions();
-			panelActions.setBounds(0, 192, 802, 53);
-		}
-		return panelActions;
-	}
-	
-	private TextField<E> getTxtCodigo() {
-		if (txtCodigo == null) {
-			txtCodigo = new TextField<>("codigo");
-			txtCodigo.setColumns(10);
-			txtCodigo.setBounds(10, 36, 96, 30);
-		}
-		return txtCodigo;
-	}
+    private JPanel getPanelContent() {
+        if (panelContent == null) {
+            panelContent = new JPanel();
+            panelContent.setBounds(0, 47, 896, 187);
+            panelContent.setLayout(null);
+            panelContent.add(getTxtId());
+            panelContent.add(getLbId());
+            panelContent.add(getTxtQuery());
+            panelContent.add(getLbQuery());
+            panelContent.add(getTxtAuthor());
+            panelContent.add(getLbAuthor());
+            panelContent.add(getTxtVersion());
+            panelContent.add(getLblCreatedAt());
+            panelContent.add(getTxtCreatedAt());
+            panelContent.add(getLblAuthor());
+            panelContent.add(getPanelActions());
+        }
+        return panelContent;
+    }
 
-	private JLabel getLbCodigo() {
-		if (lbCodigo == null) {
-			lbCodigo = new JLabel("Código:");
-			lbCodigo.setBounds(10, 11, 96, 20);
-		}
-		return lbCodigo;
-	}
+    public PanelActions getPanelActions() {
+        if (panelActions == null) {
+            panelActions = new PanelActions();
+            panelActions.setBounds(0, 129, 639, 60);
+        }
+        return panelActions;
+    }
 
-	private TextField<E> getTxtNome() {
-		if (txtNome == null) {
-			txtNome = new TextField<>("nome", true);
-			txtNome.setBounds(116, 36, 678, 30);
-			txtNome.setText(txtNome.getText().toUpperCase());
-			txtNome.setDocument(new TextDocument(20));
-		}
-		return txtNome;
-	}
+    private TextField<E> getTxtId() {
+        if (txtId == null) {
+            txtId = new TextField<>("id");
+            txtId.setBounds(10, 36, 96, 30);
+        }
+        return txtId;
+    }
 
-	private JLabel getLbNome() {
-		if (lbNome == null) {
-			lbNome = new JLabel("Nome:");
-			lbNome.setBounds(116, 11, 96, 20);
-		}
-		return lbNome;
-	}
+    private JLabel getLbId() {
+        if (lbId == null) {
+            lbId = new JLabel("Id:");
+            lbId.setBounds(10, 11, 96, 20);
+        }
+        return lbId;
+    }
 
-	private TextField<E> getTxtUf() {
-		if (txtUf == null) {
-			txtUf = new TextField<>("uf", true);
-			txtUf.setBounds(10, 101, 96, 30);
-			txtUf.setText(txtUf.getText().toUpperCase());
-			txtUf.setDocument(new TextDocument(2));
-		}
-		return txtUf;
-	}
+    private TextField<E> getTxtQuery() {
+        if (txtQuery == null) {
+            txtQuery = new TextField<>("query", true);
+            txtQuery.setBounds(116, 36, 517, 30);
+            txtQuery.setText(txtQuery.getText().toUpperCase());
+            txtQuery.setDocument(new TextDocument(60));
+        }
+        return txtQuery;
+    }
 
-	private JLabel getLbUf() {
-		if (lbUf == null) {
-			lbUf = new JLabel("UF:");
-			lbUf.setBounds(10, 76, 96, 20);
-		}
-		return lbUf;
-	}
+    private JLabel getLbQuery() {
+        if (lbQuery == null) {
+            lbQuery = new JLabel("Query:");
+            lbQuery.setBounds(116, 11, 568, 20);
+        }
+        return lbQuery;
+    }
 
-	private TextField<E> getTxtIbge() {
-		if (txtIbge == null) {
-			txtIbge = new TextField<>("ibge", true);
-			txtIbge.setBounds(116, 101, 96, 30);
-			txtIbge.setDocument(new TextDocument(3));
-		}
-		return txtIbge;
-	}
+    private TextField<E> getTxtAuthor() {
+        if (txtVersion == null) {
+            txtVersion = new TextField<>("author", true);
+            txtVersion.setBounds(441, 88, 96, 30);
+            txtVersion.setDocument(new TextDocument(60));
+        }
+        return txtVersion;
+    }
 
-	private JLabel getLbIbge() {
-		if (lbIbge == null) {
-			lbIbge = new JLabel("IBGE:");
-			lbIbge.setBounds(116, 76, 96, 20);
+    private JLabel getLbAuthor() {
+        if (lbVersion == null) {
+            lbVersion = new JLabel("Version:");
+            lbVersion.setBounds(441, 63, 96, 30);
+        }
+        return lbVersion;
+    }
+	private TextField<E> getTxtVersion() {
+		if (txtCreatedAt == null) {
+			txtCreatedAt = new TextField<E>("version", true);
+			txtCreatedAt.setBounds(547, 88, 86, 30);
 		}
-		return lbIbge;
+		return txtCreatedAt;
 	}
-	
+	private JLabel getLblCreatedAt() {
+		if (lblCreatedAt == null) {
+			lblCreatedAt = new JLabel("CreatedAt:");
+			lblCreatedAt.setBounds(547, 63, 86, 30);
+		}
+		return lblCreatedAt;
+	}
+	private TextField<E> getTxtCreatedAt() {
+		if (txtAuthor == null) {
+			txtAuthor = new TextField<E>("createdAt", true);
+			txtAuthor.setText("");
+			txtAuthor.setBounds(10, 88, 421, 30);
+		}
+		return txtAuthor;
+	}
+	private JLabel getLblAuthor() {
+		if (lblAuthor == null) {
+			lblAuthor = new JLabel("Author:");
+			lblAuthor.setBounds(10, 63, 96, 30);
+		}
+		return lblAuthor;
+	}
 }
