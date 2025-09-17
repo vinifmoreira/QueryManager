@@ -54,8 +54,8 @@ public class QueryService {
 		}
 	}
 	
-	public static Boolean update(String id, QueryRequest requestBody) {
-		HttpResponseDto response = InfoUtilRequest.put(String.format("/v1/sql/query/%s", id), "", requestBody.toJson());
+	public static Boolean update(QueryRequest requestBody) {
+		HttpResponseDto response = InfoUtilRequest.put(String.format("/v1/sql/query/%s", requestBody.getId().toString()), "", requestBody.toJson());
 		if (response.getCode().equals(200)) {
 			return true;
 		}

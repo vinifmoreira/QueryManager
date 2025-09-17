@@ -24,9 +24,9 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private JLabel lbQuery;
     protected TextField<E> txtVersion;
     private JLabel lbVersion;
-    private TextField<E> txtCreatedAt;
+    protected TextField<E> txtCreatedAt;
     private JLabel lblCreatedAt;
-    private TextField<E> txtAuthor;
+    protected TextField<E> txtAuthor;
     private JLabel lblAuthor;
     
     protected QueryManagerView(Window owner) {
@@ -35,7 +35,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     }
 
     private void initialize() {
-        setBounds(100, 100, 912, 270);
+        setBounds(100, 100, 691, 270);
         setTitle("Cadastro de SQLs");
         setModal(true);
         setLocationRelativeTo(getOwner());
@@ -55,7 +55,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private PanelTitle getPaneltitle() {
         if (paneltitle == null) {
             paneltitle = new PanelTitle("Cadastro de SQLs");
-            paneltitle.setBounds(0, 0, 638, 50);
+            paneltitle.setBounds(0, 0, 675, 50);
         }
         return paneltitle;
     }
@@ -83,7 +83,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     public PanelActions getPanelActions() {
         if (panelActions == null) {
             panelActions = new PanelActions();
-            panelActions.setBounds(0, 129, 639, 60);
+            panelActions.setBounds(0, 129, 673, 60);
         }
         return panelActions;
     }
@@ -91,7 +91,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private TextField<E> getTxtId() {
         if (txtId == null) {
             txtId = new TextField<>("id");
-            txtId.setBounds(10, 36, 96, 30);
+            txtId.setBounds(21, 36, 96, 30);
         }
         return txtId;
     }
@@ -99,7 +99,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private JLabel getLbId() {
         if (lbId == null) {
             lbId = new JLabel("Id:");
-            lbId.setBounds(10, 11, 96, 20);
+            lbId.setBounds(21, 11, 96, 20);
         }
         return lbId;
     }
@@ -107,7 +107,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private TextField<E> getTxtQuery() {
         if (txtQuery == null) {
             txtQuery = new TextField<>("query", true);
-            txtQuery.setBounds(116, 36, 517, 30);
+            txtQuery.setBounds(127, 36, 517, 30);
             txtQuery.setText(txtQuery.getText().toUpperCase());
             txtQuery.setDocument(new TextDocument(60));
         }
@@ -117,7 +117,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private JLabel getLbQuery() {
         if (lbQuery == null) {
             lbQuery = new JLabel("Query:");
-            lbQuery.setBounds(116, 11, 568, 20);
+            lbQuery.setBounds(127, 11, 517, 20);
         }
         return lbQuery;
     }
@@ -125,7 +125,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private TextField<E> getTxtAuthor() {
         if (txtVersion == null) {
             txtVersion = new TextField<>("author", true);
-            txtVersion.setBounds(441, 88, 96, 30);
+            txtVersion.setBounds(452, 88, 96, 30);
             txtVersion.setDocument(new TextDocument(60));
         }
         return txtVersion;
@@ -134,21 +134,21 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     private JLabel getLbAuthor() {
         if (lbVersion == null) {
             lbVersion = new JLabel("Version:");
-            lbVersion.setBounds(441, 63, 96, 30);
+            lbVersion.setBounds(452, 63, 96, 30);
         }
         return lbVersion;
     }
 	private TextField<E> getTxtVersion() {
 		if (txtCreatedAt == null) {
 			txtCreatedAt = new TextField<E>("version", true);
-			txtCreatedAt.setBounds(547, 88, 86, 30);
+			txtCreatedAt.setBounds(558, 88, 86, 30);
 		}
 		return txtCreatedAt;
 	}
 	private JLabel getLblCreatedAt() {
 		if (lblCreatedAt == null) {
 			lblCreatedAt = new JLabel("CreatedAt:");
-			lblCreatedAt.setBounds(547, 63, 86, 30);
+			lblCreatedAt.setBounds(558, 63, 86, 30);
 		}
 		return lblCreatedAt;
 	}
@@ -156,14 +156,14 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
 		if (txtAuthor == null) {
 			txtAuthor = new TextField<E>("createdAt", true);
 			txtAuthor.setText("");
-			txtAuthor.setBounds(10, 88, 421, 30);
+			txtAuthor.setBounds(21, 88, 421, 30);
 		}
 		return txtAuthor;
 	}
 	private JLabel getLblAuthor() {
 		if (lblAuthor == null) {
 			lblAuthor = new JLabel("Author:");
-			lblAuthor.setBounds(10, 63, 96, 30);
+			lblAuthor.setBounds(21, 63, 96, 30);
 		}
 		return lblAuthor;
 	}
