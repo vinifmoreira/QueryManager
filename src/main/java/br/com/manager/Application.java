@@ -6,6 +6,6 @@ import br.com.vipautomacao.gerador.swing.util.LookAndFeelUtil;
 public class Application {
     public static void main(String[] args) {
         LookAndFeelUtil.startLookAndFeel();
-        new QueryManagerController().setVisible(true);
+        new QueryManagerController(true).setVisible(true);
     }
 }

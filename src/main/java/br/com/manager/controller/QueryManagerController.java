@@ -9,29 +9,43 @@ import java.util.Objects;
 
 import javax.swing.JOptionPane;
 
+import com.towel.swing.table.TableConfig;
+
 import br.com.manager.model.QueryEntity;
 import br.com.manager.model.QueryRequest;
 import br.com.manager.service.QueryService;
 import br.com.manager.view.QueryManagerView;
 import br.com.vipautomacao.gerador.swing.component.view.ViewSearchController;
 import br.com.vipautomacao.gerador.swing.model.dto.ViewSearchDto;
-import br.com.vipautomacao.gerador.swing.util.ComponentFocusUtil;
 import br.com.vipautomacao.gerador.swing.util.SwingUtil;
+import br.com.vipautomacao.gerador.time.util.DateUtil;
 
-@SuppressWarnings("serial")
 public class QueryManagerController extends QueryManagerView<QueryEntity> {
 	private Component[] enable;
-	public QueryManagerController(QueryEntity object) {
+	private boolean isRoot = false;
+
+	public QueryManagerController() {
 		super(null);
-		start(object);
+		start(null, true);
 	}
 
-	private void start(QueryEntity object) {
+	public QueryManagerController(boolean isRoot) {
+		super(null);
+		start(null, isRoot);
+	}
+
+	private void start(QueryEntity object, Boolean isRoot) {
 		this.object = object;
+		this.isRoot = isRoot;
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowOpened(java.awt.event.WindowEvent e) {
 				initializing();
+			}
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				closeEvent();
 			}
 		});
 	}
@@ -40,24 +54,26 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 		enable = Arrays.asList(txtId, txtQuery, txtVersion, txtCreatedAt, txtAuthor).toArray(new Component[0]);
 
 		setActionListener();
-		setFocus();
 		disableFields();
 		showObject();
 	}
 
-	private void setFocus() {
-		ComponentFocusUtil mf = new ComponentFocusUtil(this);
-		mf.changeFocus(enable);
-	}
-
 	private void setActionListener() {
-		panelActions.getBtnClose().addActionListener(e -> dispose());
+		panelActions.getBtnClose().addActionListener(e -> closeEvent());
 		panelActions.getBtnNew().addActionListener(e -> newEvent());
 		panelActions.getBtnUpdate().addActionListener(e -> updateEvent());
 		panelActions.getBtnDelete().addActionListener(e -> deleteEvent());
 		panelActions.getBtnSave().addActionListener(e -> saveEvent());
 		panelActions.getBtnCancel().addActionListener(e -> cancelEvent());
 		panelActions.getBtnSearch().addActionListener(e -> search());
+	}
+	
+	private void closeEvent() {
+		if (isRoot) {
+			System.exit(0);
+		} else {
+			dispose();
+		}
 	}
 
 	private void search() {
@@ -151,7 +167,7 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, "Erro ao consultar o última Query");
+				JOptionPane.showMessageDialog(this, "Erro ao consultar a última Query");
 			}
 		}
 	}
@@ -159,6 +175,7 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 	private void showObject(QueryEntity object) {
 		this.object = object;
 		SwingUtil.showFields(object, enable);
+		txtCreatedAt.setText(DateUtil.dateToHyphenYYYYMMDD(DateUtil.getDate(object.getCreatedAt())));
 	}
 
 	public static ViewSearchController<QueryEntity> search(Window owner) {
@@ -166,23 +183,27 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 	}
 
 	public static ViewSearchController<QueryEntity> search(Window owner, String search) {
-		List<QueryEntity> listTableConfig = new ArrayList<>();
-//        listTableConfig.add(new QueryEntity("codigo", "Código", 100));
-//        listTableConfig.add(new QueryEntity("nome", "Nome", 610));
-//        listTableConfig.add(new QueryEntity("comissao", "Comissão", 100));
+		List<TableConfig> listTableConfig = new ArrayList<>();
+		listTableConfig.add(new TableConfig("id", "Código", 220));
+		listTableConfig.add(new TableConfig("query", "SQL", 700));
+		listTableConfig.add(new TableConfig("author", "Autor", 70));
+		listTableConfig.add(new TableConfig("version", "Versão", 70));
+		listTableConfig.add(new TableConfig("createdAt", "Data", 70));
 
-		ViewSearchDto dto = new ViewSearchDto();
+		ViewSearchDto<QueryEntity> dto = new ViewSearchDto<QueryEntity>();
 		dto.setClazz(QueryEntity.class);
-		dto.setFilters(Arrays.asList("nome"));
-		dto.setAdvancedFilters(Arrays.asList("codigo", "nome", "comissao"));
+		dto.setFilters(Arrays.asList("query"));
+		dto.setAdvancedFilters(Arrays.asList("id", "query", "author", "version"));
 		dto.setListTableConfig(listTableConfig);
-		dto.setWindowInsert(new QueryManagerController(null));
+		dto.setWindowInsert(new QueryManagerController(false));
 		dto.setSearch(search);
 
 		ViewSearchController<QueryEntity> viewSearch = new ViewSearchController<>(owner, dto);
 		viewSearch.setAdvancedSearch(true);
-		viewSearch.setCustomSearch(QueryEntity.class);
-		viewSearch.setTitle("Pesquisa de Grupo");
+		viewSearch.setCustomSearch(QueryService.class);
+		viewSearch.setCustomFunctionName("findByTerm");
+		viewSearch.setUseFindCount(false);
+		viewSearch.setTitle("Pesquisa de SQLs");
 		return viewSearch;
 	}
 }
