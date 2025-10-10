@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QueryRequest {
-	private Integer id;
+	private String id;
 	private String query;
 	private String author;
 	private String version;

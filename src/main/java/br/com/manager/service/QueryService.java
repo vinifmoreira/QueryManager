@@ -1,5 +1,6 @@
 package br.com.manager.service;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import br.com.manager.model.QueryEntity;
@@ -28,7 +29,8 @@ public class QueryService {
 	}
 
 	public static List<QueryEntity> findByTerm(String term) throws Exception {
-		HttpResponseDto response = InfoUtilRequest.get(String.format("/v1/sql/query/search?term=%s", term));
+		String encodedTerm = URLEncoder.encode(term, "UTF-8");
+		HttpResponseDto response = InfoUtilRequest.get(String.format("/v1/sql/query/search?term=%s", encodedTerm));
 		if (response.getCode().equals(200)) {
 			return QueryEntity.fromJsonArray(response.getResponse());
 		} else {

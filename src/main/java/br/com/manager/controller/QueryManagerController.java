@@ -102,9 +102,11 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 
 		if (confirmation == JOptionPane.YES_OPTION) {
 			QueryService.delete(txtId.getText());
-
+			object = null;
+			SwingUtil.cleanField(enable);
 			JOptionPane.showMessageDialog(null, "Item excluído com sucesso!", "Sucesso",
 					JOptionPane.INFORMATION_MESSAGE);
+			showObject();
 		}
 	}
 
@@ -120,7 +122,9 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 		SwingUtil.buildObject(object, enable, txtId);
 		try {
 			if (Objects.isNull(object.getId())) {
-				QueryService.create(build(object));
+				QueryEntity entity = QueryService.create(build(object));
+				object.setId(entity.getId());
+				object.setCreatedAt(entity.getCreatedAt());
 			} else {
 				QueryService.update(build(object));
 			}
@@ -134,10 +138,10 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 
 	private QueryRequest build(QueryEntity entity) {
 		QueryRequest object = new QueryRequest();
-		object.setId(entity.getId() != null ? Integer.valueOf(object.getId()) : null);
-		object.setAuthor(object.getAuthor());
-		object.setQuery(object.getQuery());
-		object.setVersion(object.getVersion());
+		object.setId(entity.getId() != null ? entity.getId() : null);
+		object.setAuthor(entity.getAuthor());
+		object.setQuery(entity.getQuery());
+		object.setVersion(entity.getVersion());
 		return object;
 	}
 
