@@ -1,7 +1,10 @@
 package br.com.manager.service;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import br.com.manager.model.QueryEntity;
 import br.com.manager.model.QueryRequest;
@@ -44,6 +47,29 @@ public class QueryService {
 			return QueryEntity.fromJson(response.getResponse());
 		} else {
 			throw new Exception("Query not found");
+		}
+	}
+
+	public static List<QueryEntity> findByUuidList(Set<String> uuids) throws Exception {
+		if (uuids == null || uuids.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		String queryParams = uuids.stream()
+				.map(uuid -> {
+					try {
+						return "uuids=" + URLEncoder.encode(uuid, "UTF-8");
+					} catch (Exception e) {
+						return "uuids=" + uuid;
+					}
+				})
+				.collect(Collectors.joining("&"));
+		
+		HttpResponseDto response = InfoUtilRequest.get("/v1/sql/query/list?" + queryParams);
+		if (response.getCode().equals(200)) {
+			return QueryEntity.fromJsonArray(response.getResponse());
+		} else {
+			throw new Exception("Queries not found");
 		}
 	}
 	

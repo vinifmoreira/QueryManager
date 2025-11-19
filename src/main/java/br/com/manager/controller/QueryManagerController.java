@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import com.towel.swing.table.TableConfig;
@@ -54,6 +57,7 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 		enable = Arrays.asList(txtId, txtQuery, txtVersion, txtCreatedAt, txtAuthor).toArray(new Component[0]);
 
 		setActionListener();
+		setMenuBar();
 		disableFields();
 		showObject();
 	}
@@ -66,6 +70,25 @@ public class QueryManagerController extends QueryManagerView<QueryEntity> {
 		panelActions.getBtnSave().addActionListener(e -> saveEvent());
 		panelActions.getBtnCancel().addActionListener(e -> cancelEvent());
 		panelActions.getBtnSearch().addActionListener(e -> search());
+	}
+
+	private void setMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		
+		JMenu menuOpcoes = new JMenu("Opções");
+		
+		JMenuItem menuItemConsultarQueries = new JMenuItem("Consultar Queries Executadas");
+		menuItemConsultarQueries.addActionListener(e -> openRunnedQueryView());
+		
+		menuOpcoes.add(menuItemConsultarQueries);
+		menuBar.add(menuOpcoes);
+		
+		setJMenuBar(menuBar);
+	}
+
+	private void openRunnedQueryView() {
+		RunnedQueryController runnedQueryController = new RunnedQueryController(this);
+		runnedQueryController.setVisible(true);
 	}
 	
 	private void closeEvent() {
