@@ -38,6 +38,7 @@ public class AuthenticatorUtil {
 					"/v1/auth?applicationId=8a888fb6-430a-44a3-a35f-9b51965c0076", new HashMap<String, String>() {
 						{
 							put("Content-Type", "application/json");
+							put("User-Agent", "Application");
 						}
 					}, requestBody.toString()).getResponse());
 			token = response.getString("token");

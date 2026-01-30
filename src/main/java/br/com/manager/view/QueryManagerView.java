@@ -36,7 +36,7 @@ public abstract class QueryManagerView<E> extends DialogForm<E> {
     }
 
     private void initialize() {
-        setBounds(100, 100, 842, 277);
+        setBounds(100, 100, 842, 300);
         setTitle("Cadastro de SQLs");
         setModal(true);
         setLocationRelativeTo(getOwner());
